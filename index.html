@@ -91,7 +91,7 @@
 <body>
 
 <canvas id="game"></canvas>
-<div style="position:fixed;right:6px;bottom:4px;z-index:150;font:10px monospace;color:rgba(241,232,216,.35);pointer-events:none;">build 5</div>
+<div style="position:fixed;right:6px;bottom:4px;z-index:150;font:10px monospace;color:rgba(241,232,216,.35);pointer-events:none;">build 6</div>
 
 <div id="hud">
   <div class="hud-block">
@@ -380,7 +380,7 @@ window.addEventListener('error', function(ev){
 
   function render(){
     drawOffice();
-    for(const o of obstacles) drawObstacle(o);
+    if(obstacles){ for(const o of obstacles) drawObstacle(o); }
     if(player && state !== STATE.MENU) drawPlayer();
   }
 
@@ -431,6 +431,7 @@ window.addEventListener('error', function(ev){
 
   resize();
   window.addEventListener('resize', resize);
+  resetGame();          // initialise player + obstacles dès le chargement (state reste MENU)
   bestEl.textContent = best;
   requestAnimationFrame(loop);
 })();
