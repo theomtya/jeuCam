@@ -406,11 +406,19 @@
   }
   function toMenu(){ state = STATE.MENU; overEl.classList.add('hidden'); menuEl.classList.remove('hidden'); }
 
-  document.getElementById('startBtn').onclick = startGame;
-  document.getElementById('retryBtn').onclick = startGame;
-  document.getElementById('menuBtn').onclick = toMenu;
+  // Démarrage : clic (desktop) + toucher (iOS). preventDefault tue le "click fantôme" iOS.
+  document.getElementById('startBtn').addEventListener('click', startGame);
+  menuEl.addEventListener('touchend', function(e){ e.preventDefault(); startGame(); }, {passive:false});
 
-  if('ontouchstart' in window){ document.getElementById('ctrlHint').textContent = 'Glisse ton doigt pour bouger Camille'; }
+  function bindBtn(id, fn){
+    const el = document.getElementById(id);
+    el.addEventListener('click', fn);
+    el.addEventListener('touchend', function(e){ e.preventDefault(); e.stopPropagation(); fn(); }, {passive:false});
+  }
+  bindBtn('retryBtn', startGame);
+  bindBtn('menuBtn', toMenu);
+
+  if('ontouchstart' in window){ document.getElementById('ctrlHint').textContent = 'Touche l\'écran pour lancer — puis glisse ton doigt'; }
 
   resize();
   window.addEventListener('resize', resize);
