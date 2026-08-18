@@ -91,6 +91,7 @@
 <body>
 
 <canvas id="game"></canvas>
+<div style="position:fixed;right:6px;bottom:4px;z-index:150;font:10px monospace;color:rgba(241,232,216,.35);pointer-events:none;">build 5</div>
 
 <div id="hud">
   <div class="hud-block">
@@ -126,6 +127,14 @@
 
 <script>
 "use strict";
+// Capteur d'erreur : affiche tout bug JS en gros à l'écran
+window.addEventListener('error', function(ev){
+  var d = document.getElementById('errbox');
+  if(!d){ d = document.createElement('div'); d.id='errbox';
+    d.style.cssText='position:fixed;left:0;right:0;bottom:0;z-index:999;background:#e63946;color:#fff;font:12px/1.4 monospace;padding:12px;white-space:pre-wrap';
+    document.body.appendChild(d); }
+  d.textContent = 'ERREUR: ' + ev.message + '  (ligne ' + (ev.lineno||'?') + ')';
+});
 (function(){
   const canvas = document.getElementById('game');
   const ctx = canvas.getContext('2d');
